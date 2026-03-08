@@ -1,73 +1,51 @@
-# Welcome to your Lovable project
+# AutoPrep AI — Instant CSV Explorer & Preprocessor
 
-## Project info
+A fully **client-side** Exploratory Data Analysis (EDA) tool built with React. Upload any CSV and get instant statistics, visualizations, insights, and preprocessing — no backend, no API keys, no data leaves your browser.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## ✨ Features
 
-## How can I edit this code?
+- **Drag & drop CSV upload** with streaming chunk parsing (PapaParse)
+- **Auto column detection** — numeric, categorical, datetime
+- **Statistical summary** — mean, median, std, skewness, IQR, outlier counts
+- **Interactive charts** — histograms, box plots, bar charts, correlation heatmap, pair plots
+- **Data quality heatmap** — visualize missing values across all columns
+- **Smart insights** — rule-based alerts for high missingness, multicollinearity, skewness, class imbalance
+- **Preprocessing pipeline** — missing value imputation, scaling, encoding, outlier removal
+- **Export options** — processed CSV, Python code, markdown report
+- **100% offline** — all computation runs in the browser
 
-There are several ways of editing your application.
+## 🛠 Tech Stack
 
-**Use Lovable**
+| Layer | Technology |
+|-------|-----------|
+| Framework | React 18 + TypeScript |
+| Build tool | Vite |
+| Styling | Tailwind CSS |
+| UI components | shadcn/ui (Radix primitives) |
+| Charts | Recharts + custom SVG |
+| CSV parsing | PapaParse |
+| Animations | Framer Motion |
+| Data analysis | Custom TypeScript (no external ML library) |
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## 🚀 Getting Started
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
 git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
 cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Open [http://localhost:5173](http://localhost:5173) and drop a CSV file to start exploring.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📦 Deploy
 
-**Use GitHub Codespaces**
+Since there's no backend, deploy anywhere that serves static files:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- **Lovable** — click Publish for an instant live URL
+- **Vercel / Netlify** — import the repo, zero config
+- **GitHub Pages** — build and push the `dist/` folder
 
-## What technologies are used for this project?
+## 📄 License
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+MIT
