@@ -6,6 +6,8 @@ import { DataPreview } from '@/components/DataPreview';
 import { ColumnStatsTable } from '@/components/ColumnStatsTable';
 import { InsightsPanel } from '@/components/InsightsPanel';
 import { PreprocessingSidebar } from '@/components/PreprocessingSidebar';
+import { DataQualityHeatmap } from '@/components/DataQualityHeatmap';
+import { PairPlotGrid } from '@/components/PairPlotGrid';
 import {
   analyzeDataset,
   applyPreprocessing,
@@ -126,10 +128,20 @@ const Index = () => {
           </motion.div>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+            <DataQualityHeatmap summary={summary} />
+          </motion.div>
+
+          {summary.numericCols >= 2 && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}>
+              <PairPlotGrid data={rawData} numericColumns={summary.columnStats.filter(c => c.type === 'numeric')} />
+            </motion.div>
+          )}
+
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
             <ColumnStatsTable stats={summary.columnStats} />
           </motion.div>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}>
             <DataPreview data={processedData} columnStats={summary.columnStats} />
           </motion.div>
         </div>
