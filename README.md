@@ -1,6 +1,8 @@
 # AutoPrep AI — Instant CSV Explorer & Preprocessor
 
-A fully **client-side** Exploratory Data Analysis (EDA) tool built with React. Upload any CSV and get instant statistics, visualizations, insights, and preprocessing — no backend, no API keys, no data leaves your browser.
+🔗 **Live Demo:** [https://auto-prep-ai-tool.lovable.app](https://auto-prep-ai-tool.lovable.app)
+
+A powerful, fully **client-side** Exploratory Data Analysis (EDA) tool built with React. Upload any CSV and get instant statistical analysis, interactive visualizations, smart insights, and automated preprocessing — all without any backend, API keys, or data leaving your browser.
 
 ## ✨ Features
 
@@ -12,7 +14,7 @@ A fully **client-side** Exploratory Data Analysis (EDA) tool built with React. U
 - **Smart insights** — rule-based alerts for high missingness, multicollinearity, skewness, class imbalance
 - **Preprocessing pipeline** — missing value imputation, scaling, encoding, outlier removal
 - **Export options** — processed CSV, Python code, markdown report
-- **100% offline** — all computation runs in the browser
+- **100% offline** — all computation runs in the browser, zero data sent to any server
 
 ## 🛠 Tech Stack
 
