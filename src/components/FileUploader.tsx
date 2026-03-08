@@ -105,7 +105,7 @@ export function FileUploader({ onDataLoaded }: FileUploaderProps) {
               {isLoading ? 'Analyzing dataset...' : 'Drop your CSV file here'}
             </p>
             <p className="text-muted-foreground text-sm mt-1">
-              or click to browse · CSV up to 50MB
+              or click to browse · CSV up to 200MB
             </p>
           </div>
 
