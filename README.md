@@ -32,8 +32,8 @@ A powerful, fully **client-side** Exploratory Data Analysis (EDA) tool built wit
 ## 🚀 Getting Started
 
 ```sh
-git clone <YOUR_GIT_URL>
-cd <YOUR_PROJECT_NAME>
+git clone https://github.com/your-username/auto-prep-ai-tool.git
+cd auto-prep-ai-tool
 npm install
 npm run dev
 ```
