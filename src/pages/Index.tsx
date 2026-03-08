@@ -6,6 +6,8 @@ import { DataPreview } from '@/components/DataPreview';
 import { ColumnStatsTable } from '@/components/ColumnStatsTable';
 import { InsightsPanel } from '@/components/InsightsPanel';
 import { PreprocessingSidebar } from '@/components/PreprocessingSidebar';
+import { DataQualityHeatmap } from '@/components/DataQualityHeatmap';
+import { PairPlotGrid } from '@/components/PairPlotGrid';
 import {
   analyzeDataset,
   applyPreprocessing,
