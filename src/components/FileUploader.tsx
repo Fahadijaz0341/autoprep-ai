@@ -1,16 +1,27 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef } from 'react';
 import { Upload, FileSpreadsheet, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Papa from 'papaparse';
+import { Progress } from '@/components/ui/progress';
 
 interface FileUploaderProps {
   onDataLoaded: (data: Record<string, string>[], fileName: string) => void;
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 export function FileUploader({ onDataLoaded }: FileUploaderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
+  const [statusText, setStatusText] = useState('');
+  const rowCountRef = useRef(0);
+  const fileSizeRef = useRef(0);
 
   const processFile = useCallback((file: File) => {
     if (!file.name.endsWith('.csv')) {
@@ -23,20 +34,38 @@ export function FileUploader({ onDataLoaded }: FileUploaderProps) {
     }
     setError(null);
     setIsLoading(true);
+    setProgress(0);
+    rowCountRef.current = 0;
+    fileSizeRef.current = file.size;
+    setStatusText(`Reading ${formatBytes(file.size)}...`);
+
+    const allRows: Record<string, string>[] = [];
 
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
-      complete: (results) => {
-        setIsLoading(false);
-        if (results.errors.length > 0) {
-          setError(`Parse error: ${results.errors[0].message}`);
-          return;
-        }
-        onDataLoaded(results.data as Record<string, string>[], file.name);
+      chunk: (results, parser) => {
+        allRows.push(...(results.data as Record<string, string>[]));
+        rowCountRef.current += results.data.length;
+        // Estimate progress from cursor position
+        const cursor = (results.meta as any).cursor ?? 0;
+        const pct = Math.min(95, Math.round((cursor / fileSizeRef.current) * 100));
+        setProgress(pct);
+        setStatusText(`Parsing... ${rowCountRef.current.toLocaleString()} rows read`);
+      },
+      complete: () => {
+        setProgress(98);
+        setStatusText(`Analyzing ${rowCountRef.current.toLocaleString()} rows...`);
+        // Small delay to let UI update before heavy analysis
+        setTimeout(() => {
+          setIsLoading(false);
+          setProgress(100);
+          onDataLoaded(allRows, file.name);
+        }, 50);
       },
       error: (err) => {
         setIsLoading(false);
+        setProgress(0);
         setError(`Failed to parse: ${err.message}`);
       },
     });
@@ -87,7 +116,7 @@ export function FileUploader({ onDataLoaded }: FileUploaderProps) {
               ? 'border-primary bg-primary/5 glow-border'
               : 'border-border hover:border-primary/40 hover:bg-card/50'
             }
-            ${isLoading ? 'pointer-events-none opacity-60' : ''}
+            ${isLoading ? 'pointer-events-none' : ''}
           `}
         >
           <input type="file" accept=".csv" onChange={handleFileInput} className="absolute inset-0 opacity-0 cursor-pointer" />
@@ -102,17 +131,25 @@ export function FileUploader({ onDataLoaded }: FileUploaderProps) {
 
           <div className="text-center">
             <p className="text-foreground font-medium text-lg">
-              {isLoading ? 'Analyzing dataset...' : 'Drop your CSV file here'}
+              {isLoading ? statusText : 'Drop your CSV file here'}
             </p>
             <p className="text-muted-foreground text-sm mt-1">
-              or click to browse · CSV up to 200MB
+              {isLoading ? `${progress}% complete` : 'or click to browse · CSV up to 200MB'}
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-muted-foreground text-xs mt-2">
-            <FileSpreadsheet className="h-3.5 w-3.5" />
-            <span>Supports any CSV with headers</span>
-          </div>
+          {isLoading && (
+            <div className="w-full max-w-xs mt-1">
+              <Progress value={progress} className="h-2 bg-secondary [&>div]:bg-primary [&>div]:transition-all [&>div]:duration-300" />
+            </div>
+          )}
+
+          {!isLoading && (
+            <div className="flex items-center gap-2 text-muted-foreground text-xs mt-2">
+              <FileSpreadsheet className="h-3.5 w-3.5" />
+              <span>Supports any CSV with headers</span>
+            </div>
+          )}
         </label>
 
         <AnimatePresence>
