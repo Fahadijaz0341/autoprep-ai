@@ -17,8 +17,8 @@ export function FileUploader({ onDataLoaded }: FileUploaderProps) {
       setError('Please upload a CSV file');
       return;
     }
-    if (file.size > 50 * 1024 * 1024) {
-      setError('File size must be under 50MB');
+    if (file.size > 200 * 1024 * 1024) {
+      setError('File size must be under 200MB');
       return;
     }
     setError(null);
